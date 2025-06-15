@@ -1,0 +1,181 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Volcano",
+  "description": "Schema for storing detailed information about a volcano for use in a language model dataset.",
+  "type": "object",
+  "required": ["id", "name", "location", "summary", "sources"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique identifier (slugified name or Smithsonian ID)"
+    },
+    "name": {
+      "type": "string",
+      "description": "Official name of the volcano"
+    },
+    "alternate_names": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Other known names or spellings"
+    },
+    "location": {
+      "type": "object",
+      "required": ["country", "coordinates"],
+      "properties": {
+        "country": { "type": "string" },
+        "region": { "type": "string" },
+        "subregion": { "type": "string" },
+        "coordinates": {
+          "type": "array",
+          "items": { "type": "number" },
+          "minItems": 2,
+          "maxItems": 2,
+          "description": "[latitude, longitude]"
+        }
+      }
+    },
+    "elevation_m": {
+      "type": "number",
+      "description": "Elevation in meters"
+    },
+    "volcano_type": {
+      "type": "string",
+      "description": "Type of volcano (e.g., Stratovolcano, Shield, Caldera)"
+    },
+    "tectonic_setting": {
+      "type": "string",
+      "description": "Plate boundary or tectonic environment"
+    },
+    "last_known_eruption": {
+      "type": "string",
+      "description": "Date or approximate time of the last known eruption (ISO or natural language)"
+    },
+    "status": {
+      "type": "string",
+      "description": "Current activity status (e.g., Active, Dormant, Extinct)"
+    },
+    "summary": {
+      "type": "string",
+      "description": "Natural-language overview of the volcano"
+    },
+    "features": {
+      "type": "object",
+      "properties": {
+        "Cones": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["name", "type", "elevation", "latitude", "longitude"],
+            "properties": {
+              "name": { "type": "string" },
+              "type": { "type": "string" },
+              "elevation": { "type": ["string", "null"] },
+              "latitude": { "type": ["string", "null"] },
+              "longitude": { "type": ["string", "null"] }
+            }
+          }
+        },
+        "Craters": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["name", "diameter", "latitude", "longitude"],
+            "properties": {
+              "name": { "type": "string" },
+              "diameter": { "type": ["string", "null"] },
+              "latitude": { "type": ["string", "null"] },
+              "longitude": { "type": ["string", "null"] }
+            }
+          }
+        },
+        "Domes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["name", "type", "elevation", "latitude", "longitude"],
+            "properties": {
+              "name": { "type": "string" },
+              "type": { "type": "string" },
+              "elevation": { "type": ["string", "null"] },
+              "latitude": { "type": ["string", "null"] },
+              "longitude": { "type": ["string", "null"] }
+            }
+          }
+        },
+        "Thermal Features": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["name", "type", "latitude", "longitude"],
+            "properties": {
+              "name": { "type": "string" },
+              "type": { "type": "string" },
+              "latitude": { "type": ["string", "null"] },
+              "longitude": { "type": ["string", "null"] }
+            }
+          }
+        }
+      },
+      "required": ["Cones", "Craters", "Domes", "Thermal Features"]
+    },
+    "eruption_history": {
+      "type": "array",
+      "description": "List of notable eruptions",
+      "items": {
+        "type": "object",
+        "required": ["date"],
+        "properties": {
+          "date": { "type": "string" },
+          "vei": { "type": "number", "minimum": 0, "maximum": 8 },
+          "impact": { "type": "string" },
+          "description": { "type": "string" },
+          "sources": {
+            "type": "array",
+            "items": { "type": "string", "format": "uri" }
+          },
+          "population": {
+            "type": ["object", "null"],
+            "properties": {
+              "within_5km": { "type": ["number", "null"] },
+              "within_10km": { "type": ["number", "null"] },
+              "within_30km": { "type": ["number", "null"] },
+              "within_100km": { "type": ["number", "null"] }
+            }
+          },
+          "rock_types": {
+            "type": ["object", "null"],
+            "properties": {
+              "major": { "type": "array", "items": { "type": "string" } },
+              "minor": { "type": "array", "items": { "type": "string" } }
+            }
+          },
+          "volcano_landform": { "type": ["string", "null"] }
+        }
+      }
+    },
+    "images": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "url": { "type": "string", "format": "uri" },
+          "caption": { "type": "string" },
+          "source": { "type": "string" }
+        }
+      }
+    },
+    "sources": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "format": "uri"
+      },
+      "description": "URLs or references to original data sources"
+    },
+    "scraped_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when this entry was scraped"
+    }
+  }
+}

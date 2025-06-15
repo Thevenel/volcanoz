@@ -1,0 +1,11 @@
+
+services:
+  volcanoz:
+    build: .
+    container_name: volcanoz
+    volumes:
+      - ./data:/volcanoz/data
+      - ./models:/volcanoz/models
+    environment:
+      - PYTHONUNBUFFERED=1
+    tty: true
